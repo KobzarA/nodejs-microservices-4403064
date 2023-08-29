@@ -68,7 +68,7 @@ GET http://localhost:3080/find/myotherservice/*
 
 // Unregistering a service
 ###
-DELETE http://localhost:3080/register/myotherservice/0.0.1/5003 
+DELETE http://localhost:3080/register/myotherservice/0.0.1/5003
 
 
 // Test if it's gone
