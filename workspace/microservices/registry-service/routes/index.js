@@ -44,12 +44,12 @@ router.delete(
   }
 );
 
-router.get("/find/:servicename/:serviceversion/", (req, res, next) => {
+router.get("/find/:servicename/:serviceversion", (req, res) => {
   const { servicename, serviceversion } = getParams(req);
   const service = registry.get(servicename, serviceversion);
-  if (!service)
+  if (!service) {
     return res.status(404).json({ error: "No matching service found" });
-
+  }
   return res.json(service);
 });
 

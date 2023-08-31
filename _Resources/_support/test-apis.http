@@ -70,6 +70,8 @@ GET http://localhost:3080/find/myotherservice/*
 ###
 DELETE http://localhost:3080/register/myotherservice/0.0.1/5003
 
+###
+DELETE http://localhost:3080/register/myservice/1.1.0/3000
 
 // Test if it's gone
 ###
