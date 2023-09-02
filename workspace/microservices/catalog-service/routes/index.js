@@ -3,23 +3,33 @@ const CatalogService = require("../lib/CatalogService");
 
 const router = express.Router();
 
+function createResponse(item) {
+  const { id, price, sku, name } = item;
+  return {
+    id,
+    price,
+    sku,
+    name
+  };
+}
+
 router.get("/items", async (req, res) => {
   try {
     const items = await CatalogService.getAll();
-    return res.json(items);
+    return res.json(items.map(createResponse));
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal server errors" });
   }
 });
 
-router.get("/item/:id", async (req, res) => {
+router.get("/items/:id", async (req, res) => {
   try {
     const item = await CatalogService.getOne(req.params.id);
     if (!item) {
       return res.status(404).json({ error: "Item not found." });
     }
-    return res.json(item);
+    return res.json(createResponse(item));
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal server errors" });
@@ -29,7 +39,7 @@ router.get("/item/:id", async (req, res) => {
 router.post("/items", async (req, res) => {
   try {
     const newItem = await CatalogService.create(req.body);
-    return res.json(newItem);
+    return res.json(createResponse(newItem));
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal server errors" });
@@ -42,7 +52,7 @@ router.put("/items/:id", async (req, res) => {
     if (!updatedItem) {
       return res.status(404).json({ error: "Item not found." });
     }
-    return res.json(updatedItem);
+    return res.json(createResponse(updatedItem));
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal server errors" });
@@ -51,7 +61,7 @@ router.put("/items/:id", async (req, res) => {
 
 router.delete("/items/:id", async (req, res) => {
   try {
-    const deletionResult = await CatalogService.update(req.params.id, req.body);
+    const deletionResult = await CatalogService.remove(req.params.id, req.body);
     if (!deletionResult.deletedCount === 0) {
       return res.status(404).json({ error: "Item not found." });
     }
