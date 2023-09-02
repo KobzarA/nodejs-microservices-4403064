@@ -22,7 +22,7 @@ const connectToMongoose = require("../lib/mongooseConnection"); // Function to c
 // config.redis.client = connectToRedis(config.redis.options);
 
 const app = require("../app"); // Express application
-const { default: axios } = require("axios");
+const axios = require("axios");
 
 // Create the HTTP server with the express app
 const server = http.createServer(app);

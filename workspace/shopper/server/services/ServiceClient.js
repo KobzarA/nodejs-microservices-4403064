@@ -27,7 +27,7 @@ class ServiceClient {
     // eslint-disable-next-line no-param-reassign
     reqOptions.url = `http://${ip}:${port}${reqOptions.url}`;
     try {
-      const response = await axios.get(reqOptions);
+      const response = await axios.request(reqOptions);
       return response.data;
     } catch (error) {
       const errorMessage =
