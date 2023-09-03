@@ -2,7 +2,7 @@
 const express = require("express");
 
 const CatalogClient = require("../../services/CatalogClient");
-const CartService = require("../../services/CartService");
+const CartServiceClient = require("../../services/CartServiceClient");
 const OrderService = require("../../services/OrderService");
 
 // Instantiate a new Express router
@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 
   // Retrieve all items in the user's cart
   const userId = res.locals.currentUser.id;
-  const cartItems = await CartService.getAll(userId);
+  const cartItems = await CartServiceClient.getAll(userId);
 
   let items = [];
   if (cartItems) {
@@ -58,7 +58,7 @@ router.get("/remove/:itemId", async (req, res) => {
   try {
     // Remove the specified item from the cart
     const userId = res.locals.currentUser.id;
-    await CartService.remove(userId, req.params.itemId);
+    await CartServiceClient.remove(userId, req.params.itemId);
 
     // Show a success message
     req.session.messages.push({
@@ -95,7 +95,7 @@ router.get("/buy", async (req, res) => {
     const user = res.locals.currentUser;
 
     // Retrieve all items in the user's cart
-    const cartItems = await CartService.getAll(userId);
+    const cartItems = await CartServiceClient.getAll(userId);
 
     // Throw an error if the cart is empty
     if (!cartItems) {
@@ -111,7 +111,7 @@ router.get("/buy", async (req, res) => {
         const item = await CatalogClient.getOne(key);
 
         // Add a promise to remove this item from the cart to the list of promises
-        cartPromises.push(CartService.remove(userId, item.id));
+        cartPromises.push(CartServiceClient.remove(userId, item.id));
 
         // Return an object with the item's details for the order
         return {

@@ -1,7 +1,7 @@
 // Required modules and services are imported
 const express = require("express");
 const CatalogClient = require("../../services/CatalogClient");
-const CartService = require("../../services/CartService");
+const CartServiceClient = require("../../services/CartServiceClient");
 
 // Express router is instantiated
 const router = express.Router();
@@ -38,7 +38,7 @@ router.get("/tocart/:itemId", async (req, res) => {
   try {
     // Add the item to the cart
     const userId = res.locals.currentUser.id;
-    await CartService.add(userId, req.params.itemId);
+    await CartServiceClient.add(userId, req.params.itemId);
     // Add a success message
     req.session.messages.push({
       type: "success",
