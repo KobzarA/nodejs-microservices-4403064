@@ -3,7 +3,7 @@ const express = require("express");
 
 const CatalogClient = require("../../services/CatalogClient");
 const CartServiceClient = require("../../services/CartServiceClient");
-const OrderService = require("../../services/OrderService");
+const OrderServiceClient = require("../../services/OrderServiceClient");
 
 // Instantiate a new Express router
 const router = express.Router();
@@ -30,7 +30,7 @@ router.get("/", async (req, res) => {
       Object.keys(cartItems).map(async (itemId) => {
         const item = await CatalogClient.getOne(itemId);
         if (!item) {
-          CartService.remove(userId, itemId);
+          CartServiceClient.remove(userId, itemId);
           return null;
         }
         // Add the quantity of each item to its details
@@ -124,7 +124,7 @@ router.get("/buy", async (req, res) => {
     );
 
     // Create the order
-    await OrderService.create(user.id, user.email, items);
+    await OrderServiceClient.create(user.id, user.email, items);
 
     // Execute all promises to remove each item from the cart
     await Promise.all(cartPromises)

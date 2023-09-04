@@ -38,6 +38,10 @@ server.on("listening", () => {
 });
 
 // Connect to Redis and MongoDB before starting the server
+// config.redis.client.connect().then(() => {
+//   connectToMongoose(config.mongodb.url).then(() => server.listen(port));
+// });
+
 config.redis.client.connect().then(() => {
-  connectToMongoose(config.mongodb.url).then(() => server.listen(port));
+  server.listen(port);
 });
